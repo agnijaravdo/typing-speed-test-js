@@ -1,6 +1,6 @@
 import fetchAndDisplayPoem from './poemHandler.js';
 import startCountDOwnOnKeydown from './timer.js';
-import { highlightTypedLetterBasedOnCorrectness } from './domUtils.js';
+import createTypingHighlighter from './typingHighlighter.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const textContainer = document.querySelector('.text-box');
@@ -8,5 +8,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   startCountDOwnOnKeydown(timerElement);
   await fetchAndDisplayPoem(textContainer);
-  highlightTypedLetterBasedOnCorrectness();
+  createTypingHighlighter(textContainer).initialize();
 });
