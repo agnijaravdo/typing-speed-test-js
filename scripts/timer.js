@@ -11,14 +11,14 @@ function startCountDown(element) {
 }
 
 function startCountDOwnOnKeydown(timerElement) {
-    let isCountdownStarted = false;
-    document.addEventListener('keydown', function (e) {
-      if (e.key.length === 1 && !isCountdownStarted) {
-        isCountdownStarted = true;
-        startCountDown(timerElement);
-      }
-      console.log(e.key);
-    });
-  }
+  let isCountdownStarted = false;
+  document.addEventListener('keydown', function (e) {
+    if (e.key.length === 1 && !isCountdownStarted) {
+      isCountdownStarted = true;
+      startCountDown(timerElement);
+    }
+    console.log(e.key);
+  });
+}
 
 export default startCountDOwnOnKeydown;
