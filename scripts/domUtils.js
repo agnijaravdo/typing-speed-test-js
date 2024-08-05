@@ -18,7 +18,7 @@ function showError(container, errorMessage = config.errorMessage.generic) {
   const errorDiv = document.createElement('div');
   errorDiv.classList.add('text-box');
   errorDiv.id = 'error-message';
-  console.error(errorMessage);
+  console.error(errorMessage); // To not show API error for the user in UI
   errorDiv.innerText = config.errorMessage.generic;
   container.appendChild(errorDiv);
 }
