@@ -20,11 +20,43 @@ function createTypingHighlighter(textContainer) {
     if (currentLetterIndex < lettersArray.length) {
       if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
         handleTyping(e.key);
+      } else if (e.key === 'Backspace') {
+        handleBackspace();
       }
     } else {
       document.removeEventListener('keydown', handleKeyDown);
     }
     e.preventDefault();
+  }
+
+  function handleBackspace() {
+    if (currentLetterIndex > 0) {
+      currentLetterIndex--;
+      const lastTypedCharacter = typedWord.pop();
+      letters[currentLetterIndex].classList.remove(
+        'bg-success',
+        'bg-danger',
+        'bg-opacity-50'
+      );
+
+      // Crossing word boundary, moving to the previous word and not mutating the original array
+      if (
+        lettersArray[currentLetterIndex] === ' ' &&
+        lastTypedCharacter !== ' '
+      ) {
+        currentWordIndex--;
+        typedWord = wordsArray[currentWordIndex].slice(0, -1);
+      }
+
+      console.log('typedWord after backspace', typedWord);
+      console.log('currentLetterIndex after backspace', currentLetterIndex);
+      updateWordHighlight();
+    } else {
+      currentLetterIndex = 0;
+      currentWordIndex = 0;
+      typedWord = [];
+      updateWordHighlight();
+    }
   }
 
   function handleTyping(key) {
