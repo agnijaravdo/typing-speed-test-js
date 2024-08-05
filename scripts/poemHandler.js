@@ -1,12 +1,24 @@
 import getPoem from './poetryAPI.js';
-import { showLoader, hideLoader, showError, addLineWordAndLetterElements } from './domUtils.js';
+import {
+  showLoader,
+  hideLoader,
+  showError,
+  addLineWordAndLetterElements,
+} from './domUtils.js';
 import config from './config.js';
 
 async function fetchAndDisplayPoem(textContainer) {
   showLoader(textContainer);
 
   try {
-    const poemLines = await getPoem();
+    // const poemLines = await getPoem(); - TODO: uncomment before final version
+    let poemLines = JSON.parse(localStorage.getItem('poemLines'));
+
+    if (!poemLines) {
+      poemLines = await getPoem();
+      localStorage.setItem('poemLines', JSON.stringify(poemLines));
+    }
+    // TODO: remove above before final version
 
     if (Array.isArray(poemLines)) {
       textContainer.classList.add('text-box-loaded');
