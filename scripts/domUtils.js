@@ -27,6 +27,7 @@ function addLetterElement(letters, lineIndex, wordIndex, wordSpan) {
   letters.forEach((letter, letterIndex) => {
     const letterSpan = document.createElement('span');
     letterSpan.id = `letter-${lineIndex}-${wordIndex}-${letterIndex}`;
+    letterSpan.classList.add('letter');
     letterSpan.innerText = letter;
     wordSpan.appendChild(letterSpan);
   });
@@ -53,4 +54,38 @@ function addLineWordAndLetterElements(poemLines, textContainer) {
   });
 }
 
-export { showLoader, hideLoader, showError, addLineWordAndLetterElements };
+function highlightTypedLetterBasedOnCorrectness() {
+  const letters = document.querySelectorAll('.letter');
+  const lettersArray = Array.from(letters).map((letter) => letter.textContent);
+  let currentIndex = 0;
+
+  const handleKeyDown = (e) => {
+    console.log('Key pressed:', e.key);
+    console.log('Letter to type:', lettersArray[currentIndex + 1]);
+
+    if (currentIndex < lettersArray.length) {
+      if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+        if (e.key === lettersArray[currentIndex]) {
+          letters[currentIndex].classList.add('bg-success', 'bg-opacity-50');
+        } else {
+          letters[currentIndex].classList.add('bg-danger', 'bg-opacity-50');
+        }
+        currentIndex++;
+      }
+    } else if (currentIndex >= lettersArray.length) {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+
+    e.preventDefault();
+  };
+
+  document.addEventListener('keydown', handleKeyDown);
+}
+
+export {
+  showLoader,
+  hideLoader,
+  showError,
+  addLineWordAndLetterElements,
+  highlightTypedLetterBasedOnCorrectness,
+};

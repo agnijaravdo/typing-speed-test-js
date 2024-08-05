@@ -17,7 +17,6 @@ function startCountDOwnOnKeydown(timerElement) {
       isCountdownStarted = true;
       startCountDown(timerElement);
     }
-    console.log(e.key);
   });
 }
 
