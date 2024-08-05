@@ -37,8 +37,9 @@ function addWordElement(words, lineIndex, lineDiv) {
   words.forEach((word, wordIndex) => {
     const wordSpan = document.createElement('span');
     wordSpan.id = `word-${lineIndex}-${wordIndex}`;
+    wordSpan.classList.add('word');
     lineDiv.appendChild(wordSpan);
-    const wordWithSpace = word + ' ';
+    const wordWithSpace = wordIndex === words.length - 1 ? word : word + ' ';
     const letters = wordWithSpace.split('');
     addLetterElement(letters, lineIndex, wordIndex, wordSpan);
   });
@@ -48,6 +49,7 @@ function addLineWordAndLetterElements(poemLines, textContainer) {
   poemLines.forEach((line, lineIndex) => {
     const lineDiv = document.createElement('div');
     lineDiv.id = `line-${lineIndex}`;
+    lineDiv.classList.add('line');
     textContainer.appendChild(lineDiv);
     const words = line.split(' ');
     addWordElement(words, lineIndex, lineDiv);
@@ -57,22 +59,56 @@ function addLineWordAndLetterElements(poemLines, textContainer) {
 function highlightTypedLetterBasedOnCorrectness() {
   const letters = document.querySelectorAll('.letter');
   const lettersArray = Array.from(letters).map((letter) => letter.textContent);
-  let currentIndex = 0;
+
+  const words = document.querySelectorAll('.word');
+  const wordsArray = Array.from(words).map((word) =>
+    word.textContent.split('')
+  );
+
+  let currentLetterIndex = 0;
+  let currentWordIndex = 0;
+  let typedWord = [];
+
+  function updateWordHighlight() {
+    for (let i = 0; i < words.length; i++) {
+      if (i === currentWordIndex) {
+        words[i].style.setProperty('text-decoration', 'underline');
+      } else {
+        words[i].style.setProperty('text-decoration', 'none');
+      }
+    }
+  }
+
+  updateWordHighlight();
 
   const handleKeyDown = (e) => {
-    console.log('Key pressed:', e.key);
-    console.log('Letter to type:', lettersArray[currentIndex + 1]);
-
-    if (currentIndex < lettersArray.length) {
+    if (currentLetterIndex < lettersArray.length) {
       if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
-        if (e.key === lettersArray[currentIndex]) {
-          letters[currentIndex].classList.add('bg-success', 'bg-opacity-50');
+        if (e.key === lettersArray[currentLetterIndex]) {
+          letters[currentLetterIndex].classList.add(
+            'bg-success',
+            'bg-opacity-50'
+          );
         } else {
-          letters[currentIndex].classList.add('bg-danger', 'bg-opacity-50');
+          letters[currentLetterIndex].classList.add(
+            'bg-danger',
+            'bg-opacity-50'
+          );
         }
-        currentIndex++;
+
+        typedWord.push(e.key);
+        currentLetterIndex++;
+
+        if (typedWord.length === wordsArray[currentWordIndex].length) {
+          currentWordIndex++;
+          typedWord = [];
+
+          if (currentWordIndex < wordsArray.length) {
+            updateWordHighlight();
+          }
+        }
       }
-    } else if (currentIndex >= lettersArray.length) {
+    } else if (currentLetterIndex >= lettersArray.length) {
       document.removeEventListener('keydown', handleKeyDown);
     }
 
