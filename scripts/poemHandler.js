@@ -1,4 +1,4 @@
-import getPoem from './api.js';
+import getPoem from './poetryAPI.js';
 import { showLoader, hideLoader, showError, addLineWordAndLetterElements } from './domUtils.js';
 import config from './config.js';
 
