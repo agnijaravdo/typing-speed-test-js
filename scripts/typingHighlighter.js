@@ -12,6 +12,16 @@ class TypingHighlighter {
     this.wordsTypedCount = 0;
   }
 
+  initialize = () => {
+    this.letters = Array.from(this.textContainer.querySelectorAll('.letter'));
+    this.lettersArray = this.letters.map((letter) => letter.textContent);
+    this.words = Array.from(this.textContainer.querySelectorAll('.word'));
+    this.wordsArray = this.words.map((word) => word.textContent.split(''));
+
+    this.updateWordHighlight();
+    document.addEventListener('keydown', this.handleKeyDown);
+  };
+
   updateWordHighlight = () => {
     this.words.forEach((word, i) => {
       word.style.setProperty(
@@ -60,7 +70,7 @@ class TypingHighlighter {
       this.typedWord = [];
       this.updateWordHighlight();
     }
-  };
+  }
 
   handleTyping(key) {
     const currentLetter = this.lettersArray[this.currentLetterIndex];
@@ -93,16 +103,13 @@ class TypingHighlighter {
         this.updateWordHighlight();
       }
     }
-  };
+  }
 
-  initialize = () => {
-    this.letters = Array.from(this.textContainer.querySelectorAll('.letter'));
-    this.lettersArray = this.letters.map((letter) => letter.textContent);
-    this.words = Array.from(this.textContainer.querySelectorAll('.word'));
-    this.wordsArray = this.words.map((word) => word.textContent.split(''));
-
-    this.updateWordHighlight();
-    document.addEventListener('keydown', this.handleKeyDown);
+  getTypingResults = () => {
+    return {
+      correctlyTypedWords: this.correctlyTypedWordCount,
+      overallTypedWords: this.wordsTypedCount,
+    };
   };
 
   reset = () => {
@@ -115,13 +122,6 @@ class TypingHighlighter {
     this.letters.forEach((letter) => {
       letter.classList.remove('bg-success', 'bg-danger', 'bg-opacity-50');
     });
-  };
-
-  getTypingResults = () => {
-    return {
-      correctlyTypedWords: this.correctlyTypedWordCount,
-      overallTypedWords: this.wordsTypedCount,
-    };
   };
 }
 

@@ -44,9 +44,8 @@ class Game {
       this.countDownController.clear();
     }
     this.timerElement.innerText = '10';
-    this.countDownController = startCountDownOnKeydown(
-      this.timerElement,
-      () => this.typingHighlighter.getTypingResults()
+    this.countDownController = startCountDownOnKeydown(this.timerElement, () =>
+      this.typingHighlighter.getTypingResults()
     );
   }
 
