@@ -61,10 +61,16 @@ function addTypingResultsElements(wpm, accuracy) {
   document.getElementById('accuracyValue').innerText = `Accuracy: ${accuracy}%`;
 }
 
+function clearTypingResultsElements() {
+  document.getElementById('wpmValue').innerText = '';
+  document.getElementById('accuracyValue').innerText = '';
+}
+
 export {
   showLoader,
   hideLoader,
   showError,
   addLineWordAndLetterElements,
   addTypingResultsElements,
+  clearTypingResultsElements,
 };

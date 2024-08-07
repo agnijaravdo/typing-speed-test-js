@@ -11,13 +11,13 @@ async function fetchAndDisplayPoem(textContainer) {
   showLoader(textContainer);
 
   try {
-    // const poemLines = await getPoem(); - TODO: uncomment before final version
-    let poemLines = JSON.parse(localStorage.getItem('poemLines'));
+    const poemLines = await getPoem();
+    // let poemLines = JSON.parse(localStorage.getItem('poemLines'));
 
-    if (!poemLines) {
-      poemLines = await getPoem();
-      localStorage.setItem('poemLines', JSON.stringify(poemLines));
-    }
+    // if (!poemLines) {
+    //   poemLines = await getPoem();
+    //   localStorage.setItem('poemLines', JSON.stringify(poemLines));
+    // }
     // TODO: remove above before final version
 
     if (Array.isArray(poemLines)) {
