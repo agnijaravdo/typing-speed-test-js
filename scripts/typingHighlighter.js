@@ -10,20 +10,18 @@ class TypingHighlighter {
     this.typedWord = [];
     this.correctlyTypedWordCount = 0;
     this.wordsTypedCount = 0;
-
-    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  updateWordHighlight() {
+  updateWordHighlight = () => {
     this.words.forEach((word, i) => {
       word.style.setProperty(
         'text-decoration',
         i === this.currentWordIndex ? 'underline' : 'none'
       );
     });
-  }
+  };
 
-  handleKeyDown(e) {
+  handleKeyDown = (e) => {
     if (this.currentLetterIndex < this.lettersArray.length) {
       if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
         this.handleTyping(e.key);
@@ -34,7 +32,7 @@ class TypingHighlighter {
       document.removeEventListener('keydown', this.handleKeyDown);
     }
     e.preventDefault();
-  }
+  };
 
   handleBackspace() {
     if (this.currentLetterIndex > 0) {
@@ -62,7 +60,7 @@ class TypingHighlighter {
       this.typedWord = [];
       this.updateWordHighlight();
     }
-  }
+  };
 
   handleTyping(key) {
     const currentLetter = this.lettersArray[this.currentLetterIndex];
@@ -95,9 +93,9 @@ class TypingHighlighter {
         this.updateWordHighlight();
       }
     }
-  }
+  };
 
-  initialize() {
+  initialize = () => {
     this.letters = Array.from(this.textContainer.querySelectorAll('.letter'));
     this.lettersArray = this.letters.map((letter) => letter.textContent);
     this.words = Array.from(this.textContainer.querySelectorAll('.word'));
@@ -105,9 +103,9 @@ class TypingHighlighter {
 
     this.updateWordHighlight();
     document.addEventListener('keydown', this.handleKeyDown);
-  }
+  };
 
-  reset() {
+  reset = () => {
     this.currentLetterIndex = 0;
     this.currentWordIndex = 0;
     this.typedWord = [];
@@ -117,14 +115,14 @@ class TypingHighlighter {
     this.letters.forEach((letter) => {
       letter.classList.remove('bg-success', 'bg-danger', 'bg-opacity-50');
     });
-  }
+  };
 
-  getTypingResults() {
+  getTypingResults = () => {
     return {
       correctlyTypedWords: this.correctlyTypedWordCount,
       overallTypedWords: this.wordsTypedCount,
     };
-  }
+  };
 }
 
 export default TypingHighlighter;

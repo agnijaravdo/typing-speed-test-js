@@ -16,14 +16,30 @@ class Game {
     await this.startNewGame();
     this.resetButton.addEventListener('click', this.reset);
     document.addEventListener('keydown', this.handleKeyPress);
-  }
+  };
 
-  startNewGame = async () => {
+  handleKeyPress = (e) => {
+    if (e.key === 'Escape') {
+      this.reset();
+    } else if (e.key === 'Enter') {
+      this.restartWithoutFetchingNewPoem();
+    }
+  };
+
+  restartWithoutFetchingNewPoem = () => {
+    clearTypingResultsElements();
+    if (this.countDownController) {
+      this.countDownController.clear();
+    }
+    this.restartGameComponents();
+  };
+
+  async startNewGame() {
     await fetchAndDisplayPoem(this.textContainer);
     this.restartGameComponents();
   }
 
-  setupCountdown = () => {
+  setupCountdown() {
     if (this.countDownController) {
       this.countDownController.clear();
     }
@@ -34,29 +50,13 @@ class Game {
     );
   }
 
-  handleKeyPress = (e) => {
-    if (e.key === 'Escape') {
-      this.reset();
-    } else if (e.key === 'Enter') {
-      this.restartWithoutFetchingNewPoem();
-    }
-  }
-
-  restartWithoutFetchingNewPoem = () => {
-    clearTypingResultsElements();
-    if (this.countDownController) {
-      this.countDownController.clear();
-    }
-    this.restartGameComponents();
-  }
-
-  restartGameComponents = () => {
+  restartGameComponents() {
     this.typingHighlighter.reset();
     this.typingHighlighter.initialize();
     this.setupCountdown();
   }
 
-  reset = () => {
+  reset() {
     clearTypingResultsElements();
     this.textContainer.innerHTML = '';
     if (this.countDownController) {
