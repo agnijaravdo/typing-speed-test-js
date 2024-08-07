@@ -44,8 +44,32 @@ class Game {
       this.countDownController.clear();
     }
     this.timerElement.innerText = '10';
-    this.countDownController = startCountDownOnKeydown(this.timerElement, () =>
-      this.typingHighlighter.getTypingResults()
+    this.countDownController = startCountDownOnKeydown(
+      this.timerElement,
+      () => this.typingHighlighter.getTypingResults(),
+      this.storeGameResults
+    );
+  }
+
+  storeGameResults(wmp, accuracy) {
+    const keys = Object.keys(localStorage);
+    let gameResultKeysLenght = keys.filter((key) =>
+      key.startsWith('gameResults-')
+    ).length;
+
+    const results = {
+      wmp,
+      accuracy,
+    };
+
+    if (!gameResultKeysLenght) {
+      gameResultKeysLenght = 1;
+    } else {
+      gameResultKeysLenght++;
+    }
+    localStorage.setItem(
+      `gameResults-${gameResultKeysLenght}`,
+      JSON.stringify(results)
     );
   }
 

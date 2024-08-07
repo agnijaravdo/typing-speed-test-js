@@ -1,7 +1,7 @@
 import calculateWPMandAccuracy from './resultsCalculator.js';
 import { addTypingResultsElements } from './utils/domUtils.js';
 
-function startCountDown(element, getTypingResults) {
+function startCountDown(element, getTypingResults, storeGameResults) {
   let seconds = parseInt(element.innerText);
   const interval = setInterval(() => {
     seconds--;
@@ -15,12 +15,17 @@ function startCountDown(element, getTypingResults) {
         typingResults.overallTypedWords
       );
       addTypingResultsElements(wpm, accuracy);
+      storeGameResults(wpm, accuracy);
     }
   }, 1000);
   return interval;
 }
 
-function startCountDownOnKeydown(timerElement, getTypingResults) {
+function startCountDownOnKeydown(
+  timerElement,
+  getTypingResults,
+  storeGameResults
+) {
   let isCountdownStarted = false;
   let intervalId = null;
 
@@ -35,7 +40,11 @@ function startCountDownOnKeydown(timerElement, getTypingResults) {
       isCountdownStarted = true;
       document.removeEventListener('keydown', handleKeydown);
 
-      intervalId = startCountDown(timerElement, getTypingResults);
+      intervalId = startCountDown(
+        timerElement,
+        getTypingResults,
+        storeGameResults
+      );
     }
   }
 
