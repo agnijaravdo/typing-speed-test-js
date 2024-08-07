@@ -9,41 +9,54 @@ class Game {
     this.timerElement = timerElement;
     this.resetButton = resetButton;
     this.typingHighlighter = new TypingHighlighter(this.textContainer);
-    this.reset = this.reset.bind(this);
     this.countDownController = null;
-    this.handleEscapeKey = this.handleEscapeKey.bind(this);
   }
 
-  async initialize() {
+  initialize = async () => {
     await this.startNewGame();
     this.resetButton.addEventListener('click', this.reset);
-    document.addEventListener('keydown', this.handleEscapeKey);
+    document.addEventListener('keydown', this.handleKeyPress);
   }
 
-  async startNewGame() {
+  startNewGame = async () => {
     await fetchAndDisplayPoem(this.textContainer);
+    this.restartGameComponents();
+  }
+
+  setupCountdown = () => {
+    if (this.countDownController) {
+      this.countDownController.clear();
+    }
+    this.timerElement.innerText = '10';
+    this.countDownController = startCountDownOnKeydown(
+      this.timerElement,
+      () => this.typingHighlighter.getTypingResults()
+    );
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Escape') {
+      this.reset();
+    } else if (e.key === 'Enter') {
+      this.restartWithoutFetchingNewPoem();
+    }
+  }
+
+  restartWithoutFetchingNewPoem = () => {
+    clearTypingResultsElements();
+    if (this.countDownController) {
+      this.countDownController.clear();
+    }
+    this.restartGameComponents();
+  }
+
+  restartGameComponents = () => {
     this.typingHighlighter.reset();
     this.typingHighlighter.initialize();
     this.setupCountdown();
   }
 
-  setupCountdown() {
-    if (this.countDownController) {
-      this.countDownController.clear();
-    }
-    this.timerElement.innerText = '10';
-    this.countDownController = startCountDownOnKeydown(this.timerElement, () =>
-      this.typingHighlighter.getTypingResults()
-    );
-  }
-
-  handleEscapeKey(e) {
-    if (e.key === 'Escape') {
-      this.reset();
-    }
-  }
-
-  reset() {
+  reset = () => {
     clearTypingResultsElements();
     this.textContainer.innerHTML = '';
     if (this.countDownController) {
