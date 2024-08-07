@@ -4,8 +4,8 @@ import {
   hideLoader,
   showError,
   addLineWordAndLetterElements,
-} from './domUtils.js';
-import config from './config.js';
+} from '../utils/domUtils.js';
+import config from '../config.js';
 
 async function fetchAndDisplayPoem(textContainer) {
   showLoader(textContainer);

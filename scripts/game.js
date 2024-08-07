@@ -1,7 +1,7 @@
-import fetchAndDisplayPoem from './poemHandler.js';
+import fetchAndDisplayPoem from './api/poemHandler.js';
 import startCountDownOnKeydown from './timer.js';
 import TypingHighlighter from './typingHighlighter.js';
-import { clearTypingResultsElements } from './domUtils.js';
+import { clearTypingResultsElements } from './utils/domUtils.js';
 
 class Game {
   constructor(textContainer, timerElement, resetButton) {

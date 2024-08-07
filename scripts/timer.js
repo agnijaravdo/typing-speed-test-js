@@ -1,5 +1,5 @@
 import calculateWPMandAccuracy from './resultsCalculator.js';
-import { addTypingResultsElements } from './domUtils.js';
+import { addTypingResultsElements } from './utils/domUtils.js';
 
 function startCountDown(element, getTypingResults) {
   let seconds = parseInt(element.innerText);
