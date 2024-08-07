@@ -2,12 +2,12 @@ import calculateWPMandAccuracy from './resultsCalculator.js';
 import { addTypingResultsElements } from './domUtils.js';
 
 function startCountDown(element, getTypingResults) {
-  let x = setInterval(() => {
-    let seconds = parseInt(element.innerText);
+  let seconds = parseInt(element.innerText);
+  const interval = setInterval(() => {
     seconds--;
     element.innerText = seconds;
-    if (seconds == 0) {
-      clearInterval(x);
+    if (seconds === 0) {
+      clearInterval(interval);
       element.innerText = 'TIME EXPIRED';
       const typingResults = getTypingResults();
       const { wpm, accuracy } = calculateWPMandAccuracy(
@@ -17,16 +17,38 @@ function startCountDown(element, getTypingResults) {
       addTypingResultsElements(wpm, accuracy);
     }
   }, 1000);
+  return interval;
 }
 
 function startCountDownOnKeydown(timerElement, getTypingResults) {
   let isCountdownStarted = false;
-  document.addEventListener('keydown', function (e) {
-    if (e.key.length === 1 && !isCountdownStarted) {
+  let intervalId = null;
+
+  function handleKeydown(e) {
+    if (
+      !isCountdownStarted &&
+      e.key.length === 1 &&
+      !e.ctrlKey &&
+      !e.altKey &&
+      !e.metaKey
+    ) {
       isCountdownStarted = true;
-      startCountDown(timerElement, getTypingResults);
+      document.removeEventListener('keydown', handleKeydown);
+
+      intervalId = startCountDown(timerElement, getTypingResults);
     }
-  });
+  }
+
+  document.addEventListener('keydown', handleKeydown);
+
+  return {
+    clear() {
+      document.removeEventListener('keydown', handleKeydown);
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+      }
+    },
+  };
 }
 
 export default startCountDownOnKeydown;
