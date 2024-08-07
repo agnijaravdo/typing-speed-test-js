@@ -11,11 +11,13 @@ class Game {
     this.typingHighlighter = new TypingHighlighter(this.textContainer);
     this.reset = this.reset.bind(this);
     this.countDownController = null;
+    this.handleEscapeKey = this.handleEscapeKey.bind(this);
   }
 
   async initialize() {
     await this.startNewGame();
     this.resetButton.addEventListener('click', this.reset);
+    document.addEventListener('keydown', this.handleEscapeKey);
   }
 
   async startNewGame() {
@@ -33,6 +35,12 @@ class Game {
     this.countDownController = startCountDownOnKeydown(this.timerElement, () =>
       this.typingHighlighter.getTypingResults()
     );
+  }
+
+  handleEscapeKey(e) {
+    if (e.key === 'Escape') {
+      this.reset();
+    }
   }
 
   reset() {
