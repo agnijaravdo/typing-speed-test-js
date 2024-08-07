@@ -56,4 +56,15 @@ function addLineWordAndLetterElements(poemLines, textContainer) {
   });
 }
 
-export { showLoader, hideLoader, showError, addLineWordAndLetterElements };
+function addTypingResultsElements(wpm, accuracy) {
+  document.getElementById('wpmValue').innerText = `WPM: ${wpm}`;
+  document.getElementById('accuracyValue').innerText = `Accuracy: ${accuracy}%`;
+}
+
+export {
+  showLoader,
+  hideLoader,
+  showError,
+  addLineWordAndLetterElements,
+  addTypingResultsElements,
+};

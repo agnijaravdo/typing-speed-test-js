@@ -6,6 +6,8 @@ function createTypingHighlighter(textContainer) {
   let currentLetterIndex = 0;
   let currentWordIndex = 0;
   let typedWord = [];
+  let correctlyTypedWordCount = 0;
+  let wordsTypedCount = 0;
 
   function updateWordHighlight() {
     words.forEach((word, i) => {
@@ -48,8 +50,6 @@ function createTypingHighlighter(textContainer) {
         typedWord = wordsArray[currentWordIndex].slice(0, -1);
       }
 
-      console.log('typedWord after backspace', typedWord);
-      console.log('currentLetterIndex after backspace', currentLetterIndex);
       updateWordHighlight();
     } else {
       currentLetterIndex = 0;
@@ -73,6 +73,12 @@ function createTypingHighlighter(textContainer) {
     currentLetterIndex++;
 
     if (typedWord.length === wordsArray[currentWordIndex].length) {
+      wordsTypedCount++;
+
+      if (typedWord.join('') === wordsArray[currentWordIndex].join('')) {
+        correctlyTypedWordCount++;
+      }
+
       currentWordIndex++;
       typedWord = [];
       if (currentWordIndex < wordsArray.length) {
@@ -85,6 +91,12 @@ function createTypingHighlighter(textContainer) {
     initialize() {
       updateWordHighlight();
       document.addEventListener('keydown', handleKeyDown);
+    },
+    getTypingResults() {
+      return {
+        correctlyTypedWords: correctlyTypedWordCount,
+        overallTypedWords: wordsTypedCount,
+      };
     },
   };
 }
