@@ -12,14 +12,6 @@ async function fetchAndDisplayPoem(textContainer) {
 
   try {
     const poemLines = await getPoem();
-    // let poemLines = JSON.parse(localStorage.getItem('poemLines'));
-
-    // if (!poemLines) {
-    //   poemLines = await getPoem();
-    //   localStorage.setItem('poemLines', JSON.stringify(poemLines));
-    // }
-    // TODO: remove above before final version
-
     if (Array.isArray(poemLines)) {
       textContainer.classList.add('text-box-loaded');
       addLineWordAndLetterElements(poemLines, textContainer);
