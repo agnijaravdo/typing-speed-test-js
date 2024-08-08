@@ -66,6 +66,38 @@ function clearTypingResultsElements() {
   document.getElementById('accuracyValue').innerText = '';
 }
 
+function addResultsTableHeader() {
+  const table = document.getElementById('results-table');
+  if (!table.tHead) {
+    const header = table.createTHead();
+    const headerRow = header.insertRow(0);
+    const headerCell1 = headerRow.insertCell(0);
+    const headerCell2 = headerRow.insertCell(1);
+    const headerCell3 = headerRow.insertCell(2);
+    headerCell1.innerText = 'Timestamp';
+    headerCell2.innerText = 'Correct WPM';
+    headerCell3.innerText = 'Accuracy %';
+  }
+}
+
+function addResultsTableRow(results) {
+  const table = document.getElementById('results-table');
+  const row = table.insertRow(-1);
+  const cell1 = row.insertCell(0);
+  const cell2 = row.insertCell(1);
+  const cell3 = row.insertCell(2);
+  cell1.innerText = results.timestamp;
+  cell2.innerText = results.wpm;
+  cell3.innerText = results.accuracy;
+}
+
+function clearTableRows() {
+  const table = document.getElementById('results-table');
+  // Removing all rows except the header
+  while (table.rows.length > 1) {
+    table.deleteRow(1);
+  }
+}
 export {
   showLoader,
   hideLoader,
@@ -73,4 +105,7 @@ export {
   addLineWordAndLetterElements,
   addTypingResultsElements,
   clearTypingResultsElements,
+  addResultsTableHeader,
+  addResultsTableRow,
+  clearTableRows,
 };

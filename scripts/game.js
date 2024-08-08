@@ -1,7 +1,12 @@
 import fetchAndDisplayPoem from './api/poemHandler.js';
 import startCountDownOnKeydown from './timer.js';
 import TypingHighlighter from './typingHighlighter.js';
-import { clearTypingResultsElements } from './utils/domUtils.js';
+import {
+  clearTypingResultsElements,
+  addResultsTableRow,
+  addResultsTableHeader,
+  clearTableRows
+} from './utils/domUtils.js';
 
 class Game {
   constructor(textContainer, timerElement, resetButton) {
@@ -13,6 +18,7 @@ class Game {
   }
 
   initialize = async () => {
+    this.hideResults();
     await this.startNewGame();
     this.resetButton.addEventListener('click', this.reset);
     document.addEventListener('keydown', this.handleKeyPress);
@@ -28,6 +34,7 @@ class Game {
 
   restartWithoutFetchingNewPoem = () => {
     clearTypingResultsElements();
+    this.hideResults();
     if (this.countDownController) {
       this.countDownController.clear();
     }
@@ -51,15 +58,23 @@ class Game {
     );
   }
 
-  storeGameResults(wmp, accuracy) {
+  storeGameResults = (wpm, accuracy) => {
     const keys = Object.keys(localStorage);
     let gameResultKeysLenght = keys.filter((key) =>
       key.startsWith('gameResults-')
     ).length;
 
     const results = {
-      wmp,
+      wpm,
       accuracy,
+      timestamp: new Date().toLocaleString('lt-LT', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }),
     };
 
     if (!gameResultKeysLenght) {
@@ -71,7 +86,21 @@ class Game {
       `gameResults-${gameResultKeysLenght}`,
       JSON.stringify(results)
     );
-  }
+
+    clearTableRows();
+    const allGameResults = [];
+    for (let i = 1; i <= gameResultKeysLenght; i++) {
+      allGameResults.push(JSON.parse(localStorage.getItem(`gameResults-${i}`)));
+    }
+
+    allGameResults.sort((a, b) => b.timestamp - a.timestamp);
+    addResultsTableHeader();
+    allGameResults.forEach((result) => {
+      addResultsTableRow(result);
+    });
+
+    this.showResults();
+  };
 
   restartGameComponents() {
     this.typingHighlighter.reset();
@@ -79,14 +108,25 @@ class Game {
     this.setupCountdown();
   }
 
-  reset() {
+  reset = () => {
     clearTypingResultsElements();
-    this.textContainer.innerHTML = '';
+    this.hideResults();
+    this.textContainer.innerText = '';
     if (this.countDownController) {
       this.countDownController.clear();
     }
     this.startNewGame();
-  }
+  };
+
+  hideResults = () => {
+    document.getElementById('results-table').style.display = 'none';
+    this.textContainer.style.display = 'block';
+  };
+
+  showResults = () => {
+    document.getElementById('results-table').style.display = 'table';
+    this.textContainer.style.display = 'none';
+  };
 }
 
 export default Game;
