@@ -52,7 +52,7 @@ class Game {
     if (this.countDownController) {
       this.countDownController.clear();
     }
-    this.timerElement.innerText = '10';
+    this.timerElement.innerText = '60';
     this.countDownController = startCountDownOnKeydown(
       this.timerElement,
       () => this.typingHighlighter.getTypingResults(),
