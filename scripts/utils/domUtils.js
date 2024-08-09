@@ -98,6 +98,25 @@ function clearTableRows() {
     table.deleteRow(1);
   }
 }
+
+export const displayPerformanceFeedback = (isRecordWpm, isRecordAccuracy) => {
+  const feedbackElement = document.getElementById('performance-feedback');
+  let feedbackMessage = '';
+
+  if (isRecordWpm && isRecordAccuracy) {
+    feedbackMessage = 'Congratulations! This is your best performance yet!';
+  } else if (isRecordWpm) {
+    feedbackMessage = 'Great job! You have achieved your fastest typing speed!';
+  } else if (isRecordAccuracy) {
+    feedbackMessage = 'Impressive! You have achieved your highest accuracy!';
+  } else {
+    feedbackMessage = 'Keep practicing! You can beat your previous scores!';
+  }
+
+  feedbackElement.innerText = feedbackMessage;
+  feedbackElement.style.display = 'block';
+};
+
 export {
   showLoader,
   hideLoader,

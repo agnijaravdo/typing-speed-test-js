@@ -5,7 +5,8 @@ import {
   clearTypingResultsElements,
   addResultsTableRow,
   addResultsTableHeader,
-  clearTableRows
+  clearTableRows,
+  displayPerformanceFeedback
 } from './utils/domUtils.js';
 
 class Game {
@@ -42,6 +43,7 @@ class Game {
   };
 
   async startNewGame() {
+    this.hideResults();
     await fetchAndDisplayPoem(this.textContainer);
     this.restartGameComponents();
   }
@@ -60,7 +62,7 @@ class Game {
 
   storeGameResults = (wpm, accuracy) => {
     const keys = Object.keys(localStorage);
-    let gameResultKeysLenght = keys.filter((key) =>
+    let gameResultKeysLength = keys.filter((key) =>
       key.startsWith('gameResults-')
     ).length;
 
@@ -77,19 +79,19 @@ class Game {
       }),
     };
 
-    if (!gameResultKeysLenght) {
-      gameResultKeysLenght = 1;
+    if (!gameResultKeysLength) {
+      gameResultKeysLength = 1;
     } else {
-      gameResultKeysLenght++;
+      gameResultKeysLength++;
     }
     localStorage.setItem(
-      `gameResults-${gameResultKeysLenght}`,
+      `gameResults-${gameResultKeysLength}`,
       JSON.stringify(results)
     );
 
     clearTableRows();
     const allGameResults = [];
-    for (let i = 1; i <= gameResultKeysLenght; i++) {
+    for (let i = 1; i <= gameResultKeysLength; i++) {
       allGameResults.push(JSON.parse(localStorage.getItem(`gameResults-${i}`)));
     }
 
@@ -100,6 +102,24 @@ class Game {
     });
 
     this.showResults();
+    this.checkPerformanceImprovement(wpm, accuracy, allGameResults);
+  };
+
+  checkPerformanceImprovement = (wpm, accuracy, allGameResults) => {
+    let isRecordWpm = true;
+    let isRecordAccuracy = true;
+
+    for (let i = 0; i < allGameResults.length - 1; i++) {
+      const pastResult = allGameResults[i];
+      if (wpm <= pastResult.wpm) {
+        isRecordWpm = false;
+      }
+      if (accuracy <= pastResult.accuracy) {
+        isRecordAccuracy = false;
+      }
+    }
+
+    displayPerformanceFeedback(isRecordWpm, isRecordAccuracy);
   };
 
   restartGameComponents() {
@@ -120,11 +140,13 @@ class Game {
 
   hideResults = () => {
     document.getElementById('results-table').style.display = 'none';
+    document.querySelector('.results').style.display = 'none';
     this.textContainer.style.display = 'block';
   };
 
   showResults = () => {
     document.getElementById('results-table').style.display = 'table';
+    document.querySelector('.results').style.display = 'block';
     this.textContainer.style.display = 'none';
   };
 }
