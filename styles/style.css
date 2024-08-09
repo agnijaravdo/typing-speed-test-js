@@ -22,8 +22,10 @@ section {
 }
 
 .results {
-  width: 100%;
-  margin-bottom: 20px;
+  width: 50%;
+  border: 1px solid black;
+  margin-top: 30px;
+  margin-bottom: 30px;
   background-color: #D1E9F6;
   padding: 10px;
   border-radius: 5px;
@@ -35,6 +37,7 @@ section {
   margin-top: 20px;
   padding: 20px;
   font-size: 1.2rem;
+  border: 1px solid black;
   background-color: #D1E9F6;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
