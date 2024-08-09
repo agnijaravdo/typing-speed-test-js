@@ -15,4 +15,4 @@ Typing Speed Test - a web application designed to measure a user's typing speed 
 **Reset and Restart** - Users can reset the test with the "esc" key with a new piece of text. Reseting is also possible when clicking "Reset The Test" button. It is also possible to restart it with the 'Enter' key to train with the same text.
 **Metrics Storage** - Stores user's typing speed and accuracy metrics together with test timestamp for historical analysis.
 **Metrics Display** - Displays the user's metrics over time in a table which appears after the test timer ends.
-**Performance Feedback** - TO ADD: after each attempt, the app displays whether the user has improved compared to previous attempts.
+**Performance Feedback** - After each attempt, the app displays whether the user has improved compared to previous attempts.
