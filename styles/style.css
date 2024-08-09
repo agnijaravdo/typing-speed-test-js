@@ -5,6 +5,8 @@ body {
   box-sizing: border-box;
   text-align: center;
   padding-top: 2vh;
+  background-color: #677D6A;
+  color: black
 }
 
 section {
@@ -22,10 +24,14 @@ section {
 .results {
   width: 100%;
   margin-bottom: 20px;
-  background-color: #e0e0e0;
+  background-color: #D6BD98;
   padding: 10px;
   border-radius: 5px;
   text-align: center;
+}
+
+button{
+  background-color: #F8EDE3;
 }
 
 .text-box {
@@ -33,7 +39,7 @@ section {
   margin-top: 20px;
   padding: 20px;
   font-size: 1.2rem;
-  background-color: #f0f0f0;
+  background-color: #D6BD98;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -44,7 +50,7 @@ section {
   width: 100%;
   margin-top: 20px;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: #D6BD98;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -53,6 +59,16 @@ section {
 table, td {
   margin-top: 20px;
   border: 1px solid black;
+}
+
+table {
+  margin-top: 20px;
+  border: 1px solid black;
+  width: 100%;
+  max-width: 800px;
+  background-color: #F8EDE3;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .hidden {
