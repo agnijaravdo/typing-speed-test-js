@@ -1,6 +1,6 @@
 # Typing Speed Test
 
-Typing Speed Test - a web application designed to measure a user's typing speed and accuracy, providing an intuitive interface. The project is built using pure Vanilla JavaScript, HTML, and CSS without any additional libraries, adhering to best coding practices with ESLint and Prettier as code linters.
+**Typing Speed Test** - a web application designed to measure a user's typing speed and accuracy, providing an intuitive interface. The project is built using pure Vanilla JavaScript, HTML, and CSS without any additional libraries, adhering to best coding practices with ESLint and Prettier as code linters.
 
 ## Features
 
